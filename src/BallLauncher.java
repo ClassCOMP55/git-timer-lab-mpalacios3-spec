@@ -19,15 +19,19 @@ public class BallLauncher extends GraphicsProgram {
 	}
 	
 	public void run() {
+		balls = new ArrayList<GOval>();
 		Timer t = new Timer(1000, this);
-		t.start();
 		addMouseListeners();
-		
+		t.start();
 	}
 	
 	public void mousePressed(MouseEvent e) {
 		GOval ball = makeBall(SIZE/2, e.getY());
+		if (ball.getX() >= 100) {
+			return;
+		}
 		add(ball);
+		
 	}
 	
 	public GOval makeBall(double x, double y) {
@@ -39,8 +43,8 @@ public class BallLauncher extends GraphicsProgram {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		for (GOval x : balls) {
-			x.move(SPEED, 0);
+		for (GOval ball : balls) {
+			ball.move(SPEED, 0);
 		}
 	}
 	
