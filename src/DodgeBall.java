@@ -26,11 +26,14 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	public static final int MAX_ENEMIES = 10;
 	public static final int WINDOW_HEIGHT = 600;
 	public static final int WINDOW_WIDTH = 300;
+	private GLabel counterLabel;
+	private int counter = 0;
 	
 	public void run() {
 		rgen = RandomGenerator.getInstance();
 		balls = new ArrayList<GOval>();
 		enemies = new ArrayList<GRect>();
+		counterLabel = new GLabel("0", 0, 10);
 		
 		text = new GLabel(""+enemies.size(), 0, WINDOW_HEIGHT);
 		add(text);
@@ -38,6 +41,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		movement = new Timer(MS, this);
 		movement.start();
 		addMouseListeners();
+		add(counterLabel);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -104,7 +108,11 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 			GObject obj = getElementAt(ball.getX() + ball.getWidth() + 1, ball.getY() + ball.getHeight()/2);
 			if (obj instanceof GRect) {
 				remove(obj);
-				balls.remove(i);
+				enemies.remove(i);
+				counter++;
+				remove(counterLabel);
+				counterLabel = new GLabel(Integer.toString(counter), 0, 10);
+				add(counterLabel);
 			}
 		}
 	}
