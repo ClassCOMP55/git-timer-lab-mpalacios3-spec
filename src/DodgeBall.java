@@ -47,6 +47,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		}
 		moveAllBallsOnce();
 		moveAllEnemiesOnce();
+		checkHitbox();
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -94,6 +95,17 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	private void moveAllEnemiesOnce() {
 		for (GRect enemy : enemies) {
 			enemy.move(0, rgen.nextInt(-2, 2));
+		}
+	}
+	
+	private void checkHitbox() {
+		for(int i = 0; i < balls.size(); i++) {
+			GOval ball = balls.get(i);
+			GObject obj = getElementAt(ball.getX() + ball.getWidth() + 1, ball.getY() + ball.getHeight()/2);
+			if (obj instanceof GRect) {
+				remove(obj);
+				balls.remove(i);
+			}
 		}
 	}
 	
